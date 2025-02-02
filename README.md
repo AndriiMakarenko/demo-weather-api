@@ -6,7 +6,7 @@ A **FastAPI** service that fetches weather data asynchronously, caches responses
 
 Follow these steps to set up and run the project.
 
-### 1️⃣ Install Poetry
+### 1️. Install Poetry
 
 Poetry is required for managing dependencies.
 
@@ -14,7 +14,7 @@ Poetry is required for managing dependencies.
 
 ---
 
-### 2️⃣ Install Docker
+### 2️. Install Docker
 
 Docker is required to run the **DynamoDB**, **MinIO (S3 equivalent)**, **Redis**, and **FastAPI** containers.
 
@@ -26,7 +26,7 @@ Docker is required to run the **DynamoDB**, **MinIO (S3 equivalent)**, **Redis**
 
 ---
 
-### 3️⃣ Install Docker Compose
+### 3️. Install Docker Compose
 
 Docker Compose is used to manage multi-container environments.
 
@@ -38,7 +38,16 @@ Docker Compose is used to manage multi-container environments.
 
 ---
 
-### 4️⃣ Start the Environment
+### 4️. Copy the environment file
+
+Run the following command from the project root:
+```sh
+cp weather-api/.env.example weather-api/.env
+```
+
+---
+
+### 5️. Start the Environment
 
 Run the following command from the project root:
 
@@ -54,7 +63,7 @@ This will start:
 
 ---
 
-### 5️⃣ Access the API Documentation
+### 6️. Access the API Documentation
 
 Once the environment is running, open **Swagger UI**:
 
