@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  dynamodb:
+    image: amazon/dynamodb-local
+    container_name: dynamodb-local
+    command: ["-jar", "DynamoDBLocal.jar", "-sharedDb"]
+    ports:
+      - "8000:8000"
+    volumes:
+      - dynamodb_data:/home/dynamodblocal/data
+    working_dir: /home/dynamodblocal
+    restart: unless-stopped
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+# In real project, logpass should be stored in .env file / AWS Secret / etc.
+# They're defined right here just for the simplicity of spinning up the demo.
+  minio:
+    image: minio/minio
+    container_name: minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"  # S3 API
+      - "9001:9001"  # Web UI
+    volumes:
+      - minio_data:/data
+    restart: unless-stopped
+
+  fastapi:
+    image: python:3.11
+    container_name: fastapi-app
+    working_dir: /app
+    volumes:
+      - ./weather-api:/app
+    ports:
+      - "4242:4242"
+    command: bash -c "pip install poetry && poetry install && poetry run start"
+    depends_on:
+      - dynamodb
+      - redis
+      - minio
+    restart: unless-stopped
+
+volumes:
+  dynamodb_data:
+  minio_data:
